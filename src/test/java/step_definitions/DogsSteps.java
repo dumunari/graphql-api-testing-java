@@ -2,77 +2,44 @@ package step_definitions;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.restassured.http.ContentType;
-import models.Dog;
-import step_definitions.base.BaseSteps;
+import resources.DogResource;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
-
-public class DogsSteps extends BaseSteps {
-    private final Dog dog = new Dog();
+public class DogsSteps {
+    private final DogResource dogResource = new DogResource();
 
     @Given("user wants to add dog named {string}, with age {int} breedId {string}")
     public void userWantsToAddDogNamedWithAgeBreedId(String dogName, Integer dogAge, String breedId) {
-        dogophql.setQuery(dog.createDogsMutation(dogName, dogAge, breedId));
-
-        request = given()
-                .contentType(ContentType.JSON)
-                .body(dogophql);
+        dogResource.prepareCreateDogsMutation(dogName, dogAge, breedId);
     }
 
     @Then("should return recently created dog {string}")
     public void shouldReturnRecentlyCreatedDog(String dogName) {
-        response.then()
-                    .assertThat()
-                        .statusCode(200)
-                        .and()
-                        .body("data.createDog.name", equalTo(dogName));
+        dogResource.assertCreateDogMutationResponse(dogName);
     }
-
 
     @Given("user wants to search dogs")
     public void userWantsToSearchDogs() {
-        dogophql.setQuery(dog.queryDogs());
-
-        request = given()
-                    .contentType(ContentType.JSON)
-                    .body(dogophql);
+        dogResource.prepareDogsQuery();
     }
 
     @Then("should return all dogs")
     public void shouldReturnAllDogs() {
-        response.then()
-                    .assertThat()
-                        .statusCode(200)
-                        .and()
-                        .body("data.dogs.name", hasItems(equalTo("Spike"), equalTo("Spika")))
-                        .and()
-                        .body("data.dogs.breed.name", hasItem(equalTo("English bulldog")));
+        dogResource.assertQueryDogsResponse();
     }
 
     @Given("user wants to add puppy with id {string} to parents with id {string} and {string}")
     public void userWantsToAddPuppyWithIdToParentsWithIdAnd(String puppyId, String firstParentId, String secondParentId) {
-        dogophql.setQuery(dog.addPuppyToParentsMutation(puppyId, firstParentId, secondParentId));
-
-        request = given()
-                    .contentType(ContentType.JSON)
-                    .body(dogophql);
+        dogResource.prepareAddPuppyToParentsMutation(puppyId, firstParentId, secondParentId);
     }
 
     @Then("should return parents id {string} and {string}")
     public void shouldReturnParentsIdAnd(String firstParentId, String secondParentId) {
-        response.then()
-                    .assertThat()
-                        .statusCode(200)
-                        .and()
-                        .body("data.addPuppyToParents.id", hasItems(equalTo(firstParentId), equalTo(secondParentId)));
+        dogResource.assertAddPuppyToParentsResponseIds(firstParentId, secondParentId);
     }
 
     @Then("parents name {string} and {string}")
     public void parentsNameAnd(String firstParentName, String secondParentName) {
-        response.then()
-                    .body("data.addPuppyToParents.name", hasItems(equalTo(firstParentName), equalTo(secondParentName)));
+        dogResource.assertAddPuppyToParentsResponseNames(firstParentName, secondParentName);
     }
 
 }

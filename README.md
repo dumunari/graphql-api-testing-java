@@ -17,25 +17,29 @@ https://github.com/dumunari/dogophql
 +-- src
 |  +-- main
 |  +---- java
-|  +------ models
-|  +--------  Breed.java
-|  +--------  Dog.java
+|  +------ api
+|  +--------  schema
 |  +--------  DogophQL.java
-|  +--------  Puppy.java
 +-- test
 |  +-- java
+|  +---- resources
+|  +------ base
+|  +-------- BaseResource.java
+|  +------ common
+|  +-------- CommonResource.java
+|  +------ BreedResource.java
+|  +------ DogResource.java
+|  +------ PuppyResource.java
 |  +---- runner
 |  +------ RunnerTest.java
 |  +---- step_definitions
-|  +------ base
-|  +-------- BaseSteps.java
 |  +------ commons
 |  +-------- CommonSteps.java
 |  +------ hooks
 |  +-------- Hooks.java
-|  +---- BreedsSteps.java
-|  +---- DogsSteps.java
-|  +---- PuppiesSteps.java
+|  +------ BreedsSteps.java
+|  +------ DogsSteps.java
+|  +------ PuppiesSteps.java
 |  +-- resources
 |  +---- reports
 |  +------ reports.html
@@ -50,19 +54,20 @@ https://github.com/dumunari/dogophql
 .
 ```
 
-- Inside the ```src/main/java/models``` package we have all models to help us when calling the GraphQL API.
-Those include an GraphQL Schema object and all queries and mutations inside each specific objects.
+- Inside the ```src/main/java/api.schema``` package we have our api schema to help us when calling the GraphQL API.
 
 - Inside the ```src/test/java/runner``` package we have our RunnerTest which is responsible for running our
  scenarios according to our cucumber options.
  
 - Inside the ```src/test/java/step_definitions``` package we have our step definitions implementations.
  
-- Inside the ```src/test/java/resources``` package we have our ```cucumber.properties``` file with cucumber runner configurations.
+- Inside the ```src/test/java/resources``` package we have our API resources to remove api calls logic from our step definitions.
 
-- Inside the ```src/test/java/resources/features``` package we have our gherkin feature files.
+- Inside the ```src/test/resources``` package we have our ```cucumber.properties``` file with cucumber runner configurations.
 
-- Inside the ```src/test/java/resources/reports``` package we have our report files.
+- Inside the ```src/test/resources/features``` package we have our gherkin feature files.
+
+- Inside the ```src/test/resources/reports``` package we have our report files.
 
 ## Running the project
 

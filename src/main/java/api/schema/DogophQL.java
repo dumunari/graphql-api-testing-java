@@ -1,4 +1,4 @@
-package models;
+package api.schema;
 
 public class DogophQL {
     private String query;
